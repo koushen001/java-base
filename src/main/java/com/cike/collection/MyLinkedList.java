@@ -4,12 +4,13 @@ package com.cike.collection;
  * @Author Kou
  * 自定义链表
  **/
-public class MyLinkedList {
+public class MyLinkedList<T> {
     private Node first;
     private Node last;
     private int size;
 
-    public void add(int index, Object obj) {
+    public void add(int index, T obj) {
+        checkIndex(index);
         Node newNode = new Node(obj);
         Node temp = getNode(index);
         if (temp != null) {
@@ -34,6 +35,7 @@ public class MyLinkedList {
     }
 
     public void remove(int index) {
+        checkIndex(index);
         Node temp = getNode(index);
         if (temp != null) {
             Node up = temp.previous;
@@ -56,14 +58,13 @@ public class MyLinkedList {
     }
 
     public Object get(int index) {
+        checkIndex(index);
         return getNode(index).element;
 
     }
 
-    public Node getNode(int index) {
-        if (index < 0 || index > size - 1) {
-            throw new RuntimeException("索引数字不合法：" + index);
-        }
+    private Node getNode(int index) {
+        checkIndex(index);
         Node temp;
         if (index <= size >> 1) {
             temp = first;
@@ -81,7 +82,13 @@ public class MyLinkedList {
 
     }
 
-    public void add(Object obj) {
+    private void checkIndex(int index) {
+        if (index < 0 || index > size - 1) {
+            throw new RuntimeException("索引数字不合法：" + index);
+        }
+    }
+
+    public void add(T obj) {
         Node node = new Node(obj);
         if (first == null) {
             first = node;
